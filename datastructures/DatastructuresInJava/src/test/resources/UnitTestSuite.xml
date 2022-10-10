@@ -1,0 +1,7 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Unit Tests" verbose="2" annotations="JDK">
+    <test name="Datastructures Implementation in Java" >
+        <classes>
+        </classes>
+    </test>
+</suite>
