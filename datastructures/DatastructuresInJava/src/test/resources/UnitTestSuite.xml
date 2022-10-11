@@ -2,6 +2,7 @@
 <suite name="Unit Tests" verbose="2" annotations="JDK">
     <test name="Datastructures Implementation in Java" >
         <classes>
+            <class name="com.tshangar.datastructures.tree.bst.BinarySearchTreeTest"/>
         </classes>
     </test>
 </suite>
