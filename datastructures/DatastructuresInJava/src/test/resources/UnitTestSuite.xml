@@ -3,6 +3,8 @@
     <test name="Datastructures Implementation in Java" >
         <classes>
             <class name="com.tshangar.datastructures.tree.bst.BinarySearchTreeTest"/>
+            <class name="com.tshangar.datastructures.graph.adjacencylist.VertexTest"/>
+            <class name="com.tshangar.datastructures.graph.adjacencylist.GraphTest"/>
         </classes>
     </test>
 </suite>
