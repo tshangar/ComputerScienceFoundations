@@ -3,6 +3,7 @@ package com.tshangar.datastructures.graph.adjacencylist;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -129,16 +130,16 @@ public class GraphTest {
         graph.add("D", "B");
         graph.add("D", "E");
 
-        List<String> depthFirst = graph.getBreadthFirst("A");
-        Assert.assertEquals(depthFirst.size(), 8);
-        Assert.assertEquals(depthFirst.get(0), "A");
-        Assert.assertEquals(depthFirst.get(1), "B");
-        Assert.assertEquals(depthFirst.get(2), "C");
-        Assert.assertEquals(depthFirst.get(3), "B");
-        Assert.assertEquals(depthFirst.get(4), "D");
-        Assert.assertEquals(depthFirst.get(5), "E");
-        Assert.assertEquals(depthFirst.get(6), "B");
-        Assert.assertEquals(depthFirst.get(7), "E");
+        List<String> breadthFirst = graph.getBreadthFirst("A");
+        Assert.assertEquals(breadthFirst.size(), 8);
+        Assert.assertEquals(breadthFirst.get(0), "A");
+        Assert.assertEquals(breadthFirst.get(1), "B");
+        Assert.assertEquals(breadthFirst.get(2), "C");
+        Assert.assertEquals(breadthFirst.get(3), "B");
+        Assert.assertEquals(breadthFirst.get(4), "D");
+        Assert.assertEquals(breadthFirst.get(5), "E");
+        Assert.assertEquals(breadthFirst.get(6), "B");
+        Assert.assertEquals(breadthFirst.get(7), "E");
     }
 
     /**
@@ -260,5 +261,53 @@ public class GraphTest {
         Assert.assertFalse(graph.hasPathDepthFirstRecursive("D", "A"));
         Assert.assertFalse(graph.hasPathDepthFirstRecursive("D", "C"));
         Assert.assertFalse(graph.hasPathDepthFirstRecursive("B", "E"));
+    }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 9)
+    public void testGraphPopulateFromEdges() {
+        List<Edge<String>> edges = new LinkedList<>();
+        edges.add(new Edge<>("A", "B"));
+        edges.add(new Edge<>("A", "C"));
+        edges.add(new Edge<>("C", "B"));
+        edges.add(new Edge<>("C", "D"));
+        edges.add(new Edge<>("C", "E"));
+        edges.add(new Edge<>("D", "B"));
+        edges.add(new Edge<>("D", "E"));
+
+        Graph<String> graph = new Graph<>();
+        graph.populate(edges);
+
+        Assert.assertTrue(graph.hasPathDepthFirstRecursive("A", "B"));
+        Assert.assertTrue(graph.hasPathDepthFirstRecursive("A", "C"));
+        Assert.assertTrue(graph.hasPathDepthFirstRecursive("A", "D"));
+        Assert.assertTrue(graph.hasPathDepthFirstRecursive("A", "E"));
+        Assert.assertFalse(graph.hasPathDepthFirstRecursive("D", "A"));
+        Assert.assertFalse(graph.hasPathDepthFirstRecursive("D", "C"));
+        Assert.assertFalse(graph.hasPathDepthFirstRecursive("B", "E"));
+
+        List<String> depthFirst = graph.getDepthFirstRecursive("A");
+        Assert.assertEquals(depthFirst.size(), 8);
+        Assert.assertEquals(depthFirst.get(0), "A");
+        Assert.assertEquals(depthFirst.get(1), "B");
+        Assert.assertEquals(depthFirst.get(2), "C");
+        Assert.assertEquals(depthFirst.get(3), "B");
+        Assert.assertEquals(depthFirst.get(4), "D");
+        Assert.assertEquals(depthFirst.get(5), "B");
+        Assert.assertEquals(depthFirst.get(6), "E");
+        Assert.assertEquals(depthFirst.get(7), "E");
+
+        List<String> breadthFirst = graph.getBreadthFirst("A");
+        Assert.assertEquals(breadthFirst.size(), 8);
+        Assert.assertEquals(breadthFirst.get(0), "A");
+        Assert.assertEquals(breadthFirst.get(1), "B");
+        Assert.assertEquals(breadthFirst.get(2), "C");
+        Assert.assertEquals(breadthFirst.get(3), "B");
+        Assert.assertEquals(breadthFirst.get(4), "D");
+        Assert.assertEquals(breadthFirst.get(5), "E");
+        Assert.assertEquals(breadthFirst.get(6), "B");
+        Assert.assertEquals(breadthFirst.get(7), "E");
     }
 }

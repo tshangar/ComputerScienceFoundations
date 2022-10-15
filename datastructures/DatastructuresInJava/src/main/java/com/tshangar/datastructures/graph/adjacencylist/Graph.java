@@ -32,6 +32,16 @@ public class Graph<E> {
         return isDirected;
     }
 
+    public void populate(List<Edge<E>> edges) {
+        for (Edge<E> edge: edges) {
+            if (edge.getSource() == null || edge.getDestination() == null) {
+                throw new NullArgumentException("Source and Destination Vertex should not be null");
+            }
+
+            add(edge.getSource(), edge.getDestination());
+        }
+    }
+
     public void add(E source, E destination) {
         if (source == null || destination == null) {
             throw new NullArgumentException("Source and Destination Vertex should not be null");
