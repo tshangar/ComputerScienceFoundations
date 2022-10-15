@@ -195,4 +195,96 @@ public class Graph<E> {
         results.add(source);
         adjacencyList.get(source).getNeighbours().forEach(vertex -> getDepthFirstRecursive(vertex, results));
     }
+
+    public boolean hasPathBreadthFirstIterative(E source, E destination) {
+        if (source == null || destination == null) {
+            throw new NullArgumentException("Source and Destination Vertex should not be null");
+        }
+
+        if ( !adjacencyList.containsKey(source) || !adjacencyList.containsKey(destination) ) {
+            return false;
+        }
+
+        if (source.equals(destination)) {
+            return true;
+        }
+
+        Deque<E> queue = new LinkedList<>();
+        queue.addLast(adjacencyList.get(source).getValue());
+
+        while (!queue.isEmpty()) {
+            E vertex = queue.removeFirst();
+            if (vertex.equals(destination)) {
+                return true;
+            }
+
+            if (!adjacencyList.containsKey(vertex)) {
+                continue;
+            }
+
+            Iterator<E> iterator = adjacencyList.get(vertex).iterator();
+            while (iterator.hasNext()) {
+                queue.addLast(iterator.next());
+            }
+        }
+
+        return false;
+    }
+
+    public boolean hasPathDepthFirstIterative(E source, E destination) {
+        if (source == null || destination == null) {
+            throw new NullArgumentException("Source and Destination Vertex should not be null");
+        }
+
+        if ( !adjacencyList.containsKey(source) || !adjacencyList.containsKey(destination) ) {
+            return false;
+        }
+
+        if (source.equals(destination)) {
+            return true;
+        }
+
+        Deque<E> stack = new LinkedList<>();
+        stack.addFirst(adjacencyList.get(source).getValue());
+
+        while (!stack.isEmpty()) {
+            E vertex = stack.removeFirst();
+            if (vertex.equals(destination)) {
+                return true;
+            }
+
+            if (!adjacencyList.containsKey(vertex)) {
+                continue;
+            }
+
+            Iterator<E> iterator = adjacencyList.get(vertex).iterator();
+            while (iterator.hasNext()) {
+                stack.addFirst(iterator.next());
+            }
+        }
+
+        return false;
+    }
+
+    public boolean hasPathDepthFirstRecursive(E source, E destination) {
+        if (source == null || destination == null) {
+            throw new NullArgumentException("Source and Destination Vertex should not be null");
+        }
+
+        if ( !adjacencyList.containsKey(source) || !adjacencyList.containsKey(destination) ) {
+            return false;
+        }
+
+        if (source.equals(destination)) {
+            return true;
+        }
+
+        for (E vertex : adjacencyList.get(source).getNeighbours()) {
+            if (hasPathDepthFirstRecursive(vertex, destination)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

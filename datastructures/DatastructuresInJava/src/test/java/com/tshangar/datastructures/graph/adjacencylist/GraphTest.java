@@ -192,4 +192,73 @@ public class GraphTest {
         Assert.assertEquals(depthFirst.get(6), "E");
         Assert.assertEquals(depthFirst.get(7), "E");
     }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 6)
+    public void testHasPathBreadthFirstIterative() {
+        Graph<String> graph = new Graph<>();
+        graph.add("A", "B");
+        graph.add("A", "C");
+        graph.add("C", "B");
+        graph.add("C", "D");
+        graph.add("C", "E");
+        graph.add("D", "B");
+        graph.add("D", "E");
+
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("A", "B"));
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("A", "C"));
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("A", "D"));
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("A", "E"));
+        Assert.assertFalse(graph.hasPathBreadthFirstIterative("D", "A"));
+        Assert.assertFalse(graph.hasPathBreadthFirstIterative("D", "C"));
+        Assert.assertFalse(graph.hasPathBreadthFirstIterative("B", "E"));
+    }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 7)
+    public void testHasPathDepthFirstIterative() {
+        Graph<String> graph = new Graph<>();
+        graph.add("A", "B");
+        graph.add("A", "C");
+        graph.add("C", "B");
+        graph.add("C", "D");
+        graph.add("C", "E");
+        graph.add("D", "B");
+        graph.add("D", "E");
+
+        Assert.assertTrue(graph.hasPathDepthFirstIterative("A", "B"));
+        Assert.assertTrue(graph.hasPathDepthFirstIterative("A", "C"));
+        Assert.assertTrue(graph.hasPathDepthFirstIterative("A", "D"));
+        Assert.assertTrue(graph.hasPathDepthFirstIterative("A", "E"));
+        Assert.assertFalse(graph.hasPathDepthFirstIterative("D", "A"));
+        Assert.assertFalse(graph.hasPathDepthFirstIterative("D", "C"));
+        Assert.assertFalse(graph.hasPathDepthFirstIterative("B", "E"));
+    }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 8)
+    public void testHasPathDepthFirstRecursive() {
+        Graph<String> graph = new Graph<>();
+        graph.add("A", "B");
+        graph.add("A", "C");
+        graph.add("C", "B");
+        graph.add("C", "D");
+        graph.add("C", "E");
+        graph.add("D", "B");
+        graph.add("D", "E");
+
+        Assert.assertTrue(graph.hasPathDepthFirstRecursive("A", "B"));
+        Assert.assertTrue(graph.hasPathDepthFirstRecursive("A", "C"));
+        Assert.assertTrue(graph.hasPathDepthFirstRecursive("A", "D"));
+        Assert.assertTrue(graph.hasPathDepthFirstRecursive("A", "E"));
+        Assert.assertFalse(graph.hasPathDepthFirstRecursive("D", "A"));
+        Assert.assertFalse(graph.hasPathDepthFirstRecursive("D", "C"));
+        Assert.assertFalse(graph.hasPathDepthFirstRecursive("B", "E"));
+    }
 }
