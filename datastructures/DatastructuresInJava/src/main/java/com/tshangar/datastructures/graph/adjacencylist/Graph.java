@@ -143,12 +143,21 @@ public class Graph<E> {
             return Collections.emptyList();
         }
 
+        Set<E> visited = new HashSet<>();       // Reason not using the results to check visited, because its O(n)
         List<E> results = new ArrayList<>();
         Deque<E> queue = new LinkedList<>();
         queue.addLast(adjacencyList.get(source).getValue());
 
         while (!queue.isEmpty()) {
             E vertex = queue.removeFirst();
+            if (!isDirected) {
+                if (visited.contains(vertex)) {
+                    continue;
+                }
+
+                visited.add(vertex);
+            }
+
             results.add(vertex);
 
             if (!adjacencyList.containsKey(vertex)) {
@@ -169,12 +178,21 @@ public class Graph<E> {
             return Collections.emptyList();
         }
 
+        Set<E> visited = new HashSet<>();       // Reason not using the results to check visited, because its O(n)
         List<E> results = new ArrayList<>();
         Deque<E> stack = new LinkedList<>();
         stack.addFirst(adjacencyList.get(source).getValue());
 
         while (!stack.isEmpty()) {
             E vertex = stack.removeFirst();
+            if (!isDirected) {
+                if (visited.contains(vertex)) {
+                    continue;
+                }
+
+                visited.add(vertex);
+            }
+
             results.add(vertex);
 
             if (!adjacencyList.containsKey(vertex)) {
@@ -191,19 +209,25 @@ public class Graph<E> {
     }
 
     public List<E> getDepthFirstRecursive(E source) {
+        Set<E> visited = new HashSet<>();
         List<E> results = new ArrayList<>();
-        getDepthFirstRecursive(source, results);
+        getDepthFirstRecursive(source, results, visited);
 
         return results;
     }
 
-    private void getDepthFirstRecursive(E source, List<E> results) {
+    private void getDepthFirstRecursive(E source, List<E> results, Set<E> visited) {
         if (!adjacencyList.containsKey(source)) {
             return;
         }
 
+        if (!isDirected && visited.contains(source)) {
+            return;
+        }
+
+        visited.add(source);
         results.add(source);
-        adjacencyList.get(source).getNeighbours().forEach(vertex -> getDepthFirstRecursive(vertex, results));
+        adjacencyList.get(source).getNeighbours().forEach(vertex -> getDepthFirstRecursive(vertex, results, visited));
     }
 
     public boolean hasPathBreadthFirstIterative(E source, E destination) {
@@ -216,10 +240,16 @@ public class Graph<E> {
         }
 
         Deque<E> queue = new LinkedList<>();
+        Set<E> visited = new HashSet<>();
         queue.addLast(adjacencyList.get(source).getValue());
 
         while (!queue.isEmpty()) {
             E vertex = queue.removeFirst();
+            if (visited.contains(vertex)) {
+                continue;
+            }
+
+            visited.add(vertex);
             if (vertex.equals(destination)) {
                 return true;
             }
@@ -247,10 +277,16 @@ public class Graph<E> {
         }
 
         Deque<E> stack = new LinkedList<>();
+        Set<E> visited = new HashSet<>();
         stack.addFirst(adjacencyList.get(source).getValue());
 
         while (!stack.isEmpty()) {
             E vertex = stack.removeFirst();
+            if (visited.contains(vertex)) {
+                continue;
+            }
+
+            visited.add(vertex);
             if (vertex.equals(destination)) {
                 return true;
             }
@@ -269,6 +305,11 @@ public class Graph<E> {
     }
 
     public boolean hasPathDepthFirstRecursive(E source, E destination) {
+        Set<E> visited = new HashSet<>();
+        return hasPathDepthFirstRecursive(source, destination, visited);
+    }
+
+    private boolean hasPathDepthFirstRecursive(E source, E destination, Set<E> visited) {
         if (source == null || destination == null) {
             throw new NullArgumentException("Source and Destination Vertex should not be null");
         }
@@ -277,16 +318,47 @@ public class Graph<E> {
             return false;
         }
 
+        if (visited.contains(source)) {
+            return false;
+        }
+
+        visited.add(source);
         if (source.equals(destination)) {
             return true;
         }
 
         for (E vertex : adjacencyList.get(source).getNeighbours()) {
-            if (hasPathDepthFirstRecursive(vertex, destination)) {
+            if (hasPathDepthFirstRecursive(vertex, destination, visited)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public int getConnectedVerticesCount() {
+        int count = 0;
+        Set<E> visited = new HashSet<>();
+
+        for (Vertex<E> vertex : adjacencyList.values()) {
+            if (exploreIsland(vertex.getValue(), visited)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private boolean exploreIsland(E current, Set<E> visited) {
+        if (current == null || !adjacencyList.containsKey(current) || visited.contains(current)) {
+            return false;
+        }
+
+        visited.add(current);
+        for (E vertex : adjacencyList.get(current).getNeighbours()) {
+            exploreIsland(vertex, visited);
+        }
+
+        return true;
     }
 }

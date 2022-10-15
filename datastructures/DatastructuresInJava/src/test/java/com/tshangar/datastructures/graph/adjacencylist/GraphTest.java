@@ -310,4 +310,133 @@ public class GraphTest {
         Assert.assertEquals(breadthFirst.get(6), "B");
         Assert.assertEquals(breadthFirst.get(7), "E");
     }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 10)
+    public void testGetBreadthFirstForUndirectedCycleGraph() {
+        List<Edge<String>> edges = new LinkedList<>();
+        edges.add(new Edge<>(false, "A", "B"));
+        edges.add(new Edge<>(false, "A", "C"));
+        edges.add(new Edge<>(false, "C", "B"));
+        edges.add(new Edge<>(false, "C", "D"));
+        edges.add(new Edge<>(false, "C", "E"));
+        edges.add(new Edge<>(false, "D", "B"));
+        edges.add(new Edge<>(false, "D", "E"));
+
+        Graph<String> graph = new Graph<>(false);
+        graph.populate(edges);
+
+        List<String> breadthFirst = graph.getBreadthFirst("A");
+        Assert.assertEquals(breadthFirst.size(), 5);
+        Assert.assertEquals(breadthFirst.get(0), "A");
+        Assert.assertEquals(breadthFirst.get(1), "B");
+        Assert.assertEquals(breadthFirst.get(2), "C");
+        Assert.assertEquals(breadthFirst.get(3), "D");
+        Assert.assertEquals(breadthFirst.get(4), "E");
+    }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 11)
+    public void testGetDepthFirstForUndirectedCycleGraph() {
+        List<Edge<String>> edges = new LinkedList<>();
+        edges.add(new Edge<>(false, "A", "B"));
+        edges.add(new Edge<>(false, "A", "C"));
+        edges.add(new Edge<>(false, "C", "B"));
+        edges.add(new Edge<>(false, "C", "D"));
+        edges.add(new Edge<>(false, "C", "E"));
+        edges.add(new Edge<>(false, "D", "B"));
+        edges.add(new Edge<>(false, "D", "E"));
+
+        Graph<String> graph = new Graph<>(false);
+        graph.populate(edges);
+
+        List<String> depthFirst = graph.getDepthFirst("A");
+        Assert.assertEquals(depthFirst.size(), 5);
+        Assert.assertEquals(depthFirst.get(0), "A");
+        Assert.assertEquals(depthFirst.get(1), "C");
+        Assert.assertEquals(depthFirst.get(2), "E");
+        Assert.assertEquals(depthFirst.get(3), "D");
+        Assert.assertEquals(depthFirst.get(4), "B");
+    }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 12)
+    public void testGetDepthFirstRecursiveForUndirectedCycleGraph() {
+        List<Edge<String>> edges = new LinkedList<>();
+        edges.add(new Edge<>(false, "A", "B"));
+        edges.add(new Edge<>(false, "A", "C"));
+        edges.add(new Edge<>(false, "C", "B"));
+        edges.add(new Edge<>(false, "C", "D"));
+        edges.add(new Edge<>(false, "C", "E"));
+        edges.add(new Edge<>(false, "D", "B"));
+        edges.add(new Edge<>(false, "D", "E"));
+
+        Graph<String> graph = new Graph<>(false);
+        graph.populate(edges);
+
+        List<String> depthFirst = graph.getDepthFirstRecursive("A");
+        Assert.assertEquals(depthFirst.size(), 5);
+        Assert.assertEquals(depthFirst.get(0), "A");
+        Assert.assertEquals(depthFirst.get(1), "B");
+        Assert.assertEquals(depthFirst.get(2), "C");
+        Assert.assertEquals(depthFirst.get(3), "D");
+        Assert.assertEquals(depthFirst.get(4), "E");
+    }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 13)
+    public void testHasPathBreadthFirstIterativeForUndirectedCycleGraph() {
+        List<Edge<String>> edges = new LinkedList<>();
+        edges.add(new Edge<>(false, "A", "B"));
+        edges.add(new Edge<>(false, "A", "C"));
+        edges.add(new Edge<>(false, "C", "B"));
+        edges.add(new Edge<>(false, "C", "D"));
+        edges.add(new Edge<>(false, "C", "E"));
+        edges.add(new Edge<>(false, "D", "B"));
+        edges.add(new Edge<>(false, "D", "E"));
+
+        Graph<String> graph = new Graph<>(false);
+        graph.populate(edges);
+
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("A", "B"));
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("A", "C"));
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("A", "D"));
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("A", "E"));
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("D", "A"));
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("D", "C"));
+        Assert.assertTrue(graph.hasPathBreadthFirstIterative("B", "E"));
+    }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 9)
+    public void testGetConnectedVerticesCount() {
+        Graph<String> graph = new Graph<>(false);
+
+        graph.add("A", "B");
+        graph.add("A", "C");
+        graph.add("C", "B");
+        graph.add("C", "D");
+        graph.add("C", "E");
+        graph.add("D", "B");
+        graph.add("D", "E");
+
+        graph.add("P", "Q");
+        graph.add("P", "R");
+        graph.add("Q", "R");
+
+        graph.add("X", "Y");
+        graph.add("Y", "Z");
+
+        Assert.assertEquals(graph.getConnectedVerticesCount(), 3);
+    }
 }
