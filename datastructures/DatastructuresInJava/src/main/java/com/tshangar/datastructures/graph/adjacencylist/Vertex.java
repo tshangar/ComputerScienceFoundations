@@ -12,7 +12,7 @@ public class Vertex<E> {
     private static final Logger logger = LoggerFactory.getLogger(Vertex.class);
 
     private E value;
-    private final List<Vertex<E>> neighbourVertices = new LinkedList<>();
+    private final List<E> neighbourVertices = new LinkedList<>();
 
     /**
      * Constructor to create Vertex object
@@ -30,7 +30,7 @@ public class Vertex<E> {
     }
 
     public Collection<E> getNeighbours() {
-        return neighbourVertices.stream().map(Vertex::getValue).toList();
+        return Collections.unmodifiableCollection(neighbourVertices);
     }
 
     public int size() {
@@ -38,22 +38,18 @@ public class Vertex<E> {
     }
 
     public void addNeighbour(E vertex) {
-        addNeighbour(new Vertex<>(vertex));
-    }
-
-    public void addNeighbour(Vertex<E> vertex) {
         neighbourVertices.add(vertex);
     }
 
     public boolean removeNeighbour(E neighbor) {
-        return neighbourVertices.removeIf(vertex -> vertex.getValue().equals(neighbor));
+        return neighbourVertices.removeIf(vertex -> vertex.equals(neighbor));
     }
 
     public boolean isNeighbour(E neighbor) {
-        return neighbourVertices.stream().anyMatch(vertex -> vertex.getValue().equals(neighbor));
+        return neighbourVertices.stream().anyMatch(vertex -> vertex.equals(neighbor));
     }
 
-    public Iterator<Vertex<E>> iterator() {
+    public Iterator<E> iterator() {
         return neighbourVertices.iterator();
     }
 

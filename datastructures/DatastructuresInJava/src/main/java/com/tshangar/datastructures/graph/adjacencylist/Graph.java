@@ -50,8 +50,7 @@ public class Graph<E> {
         addVertex(destination);
 
         Vertex<E> sourceVertex = adjacencyList.get(source);
-        Vertex<E> destinationVertex = adjacencyList.get(destination);
-        sourceVertex.addNeighbour(destinationVertex);
+        sourceVertex.addNeighbour(destination);
     }
 
     private void addVertex(E vertexValue) {
@@ -135,14 +134,18 @@ public class Graph<E> {
         }
 
         List<E> results = new ArrayList<>();
-        Deque<Vertex<E>> queue = new LinkedList<>();
-        queue.addLast(adjacencyList.get(source));
+        Deque<E> queue = new LinkedList<>();
+        queue.addLast(adjacencyList.get(source).getValue());
 
         while (!queue.isEmpty()) {
-            Vertex<E> vertex = queue.removeFirst();
-            results.add(vertex.getValue());
+            E vertex = queue.removeFirst();
+            results.add(vertex);
 
-            Iterator<Vertex<E>> iterator = vertex.iterator();
+            if (!adjacencyList.containsKey(vertex)) {
+                continue;
+            }
+
+            Iterator<E> iterator = adjacencyList.get(vertex).iterator();
             while (iterator.hasNext()) {
                 queue.addLast(iterator.next());
             }
@@ -157,14 +160,18 @@ public class Graph<E> {
         }
 
         List<E> results = new ArrayList<>();
-        Deque<Vertex<E>> stack = new LinkedList<>();
-        stack.addFirst(adjacencyList.get(source));
+        Deque<E> stack = new LinkedList<>();
+        stack.addFirst(adjacencyList.get(source).getValue());
 
         while (!stack.isEmpty()) {
-            Vertex<E> vertex = stack.removeFirst();
-            results.add(vertex.getValue());
+            E vertex = stack.removeFirst();
+            results.add(vertex);
 
-            Iterator<Vertex<E>> iterator = vertex.iterator();
+            if (!adjacencyList.containsKey(vertex)) {
+                continue;
+            }
+
+            Iterator<E> iterator = adjacencyList.get(vertex).iterator();
             while (iterator.hasNext()) {
                 stack.addFirst(iterator.next());
             }
