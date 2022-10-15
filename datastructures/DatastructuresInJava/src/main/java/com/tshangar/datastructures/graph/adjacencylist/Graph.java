@@ -205,10 +205,6 @@ public class Graph<E> {
             return false;
         }
 
-        if (source.equals(destination)) {
-            return true;
-        }
-
         Deque<E> queue = new LinkedList<>();
         queue.addLast(adjacencyList.get(source).getValue());
 
@@ -238,10 +234,6 @@ public class Graph<E> {
 
         if ( !adjacencyList.containsKey(source) || !adjacencyList.containsKey(destination) ) {
             return false;
-        }
-
-        if (source.equals(destination)) {
-            return true;
         }
 
         Deque<E> stack = new LinkedList<>();
