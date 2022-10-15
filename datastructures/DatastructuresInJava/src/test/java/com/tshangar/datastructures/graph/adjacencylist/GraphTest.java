@@ -465,4 +465,35 @@ public class GraphTest {
 
         Assert.assertEquals(graph.getLargestIslandCount(), 5);
     }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 16)
+    public void testGetShortestPathDistance() {
+        Graph<String> graph = new Graph<>(false);
+
+        graph.add("A", "B");
+        graph.add("A", "C");
+        graph.add("C", "B");
+        graph.add("C", "D");
+        graph.add("C", "E");
+        graph.add("D", "B");
+        graph.add("D", "E");
+
+        graph.add("P", "Q");
+        graph.add("P", "R");
+        graph.add("Q", "R");
+
+        graph.add("W", "X");
+        graph.add("X", "Y");
+        graph.add("Z", "Y");
+
+        Assert.assertEquals(graph.getShortestPathDistance("A", "A"), 0);
+        Assert.assertEquals(graph.getShortestPathDistance("A", "B"), 1);
+        Assert.assertEquals(graph.getShortestPathDistance("A", "E"), 2);
+        Assert.assertEquals(graph.getShortestPathDistance("A", "D"), 2);
+        Assert.assertEquals(graph.getShortestPathDistance("A", "Z"), -1);
+        Assert.assertEquals(graph.getShortestPathDistance("M", "N"), -1);
+    }
 }

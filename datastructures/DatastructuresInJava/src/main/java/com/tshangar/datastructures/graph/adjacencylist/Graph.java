@@ -17,6 +17,9 @@ public class Graph<E> {
     private final Map<E, Vertex<E>> adjacencyList = new HashMap<>();
     private final boolean isDirected;
 
+    private record PathDistance<E>(E key, int distance) {
+    }
+
     /**
      * Default constructor to create Graph object
      */
@@ -390,5 +393,42 @@ public class Graph<E> {
         }
 
         return count;
+    }
+
+    public int getShortestPathDistance(E source, E destination) {
+        if (source == null || destination == null) {
+            throw new NullArgumentException("Source and Destination Vertex should not be null");
+        }
+
+        if (!adjacencyList.containsKey(source) || !adjacencyList.containsKey(destination)) {
+            return -1;
+        }
+
+        if (source.equals(destination)) {
+            return 0;
+        }
+
+        Set<E> visited = new HashSet<>();
+        Deque<PathDistance<E>> queue = new LinkedList<>();
+        queue.addLast(new PathDistance<>(adjacencyList.get(source).getValue(), 0));
+
+        while (!queue.isEmpty()) {
+            PathDistance<E> current = queue.removeFirst();
+            if (visited.contains(current.key())) {
+                continue;
+            }
+
+            visited.add(current.key());
+
+            if (current.key().equals(destination)) {
+                return current.distance();
+            }
+
+            adjacencyList.get(current.key()).getNeighbours().forEach(neighbour -> {
+                queue.addLast(new PathDistance<>(neighbour, current.distance() + 1));
+            });
+        }
+
+        return -1;
     }
 }
