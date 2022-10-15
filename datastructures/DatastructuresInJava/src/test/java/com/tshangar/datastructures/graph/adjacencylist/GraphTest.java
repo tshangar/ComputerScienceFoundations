@@ -418,8 +418,8 @@ public class GraphTest {
     /**
      * Describe about the test here
      */
-    @Test(priority = 9)
-    public void testGetConnectedVerticesCount() {
+    @Test(priority = 14)
+    public void testGetIslandCount() {
         Graph<String> graph = new Graph<>(false);
 
         graph.add("A", "B");
@@ -437,6 +437,32 @@ public class GraphTest {
         graph.add("X", "Y");
         graph.add("Y", "Z");
 
-        Assert.assertEquals(graph.getConnectedVerticesCount(), 3);
+        Assert.assertEquals(graph.getIslandCount(), 3);
+    }
+
+    /**
+     * Describe about the test here
+     */
+    @Test(priority = 15)
+    public void testGetLargestIslandCount() {
+        Graph<String> graph = new Graph<>(false);
+
+        graph.add("A", "B");
+        graph.add("A", "C");
+        graph.add("C", "B");
+        graph.add("C", "D");
+        graph.add("C", "E");
+        graph.add("D", "B");
+        graph.add("D", "E");
+
+        graph.add("P", "Q");
+        graph.add("P", "R");
+        graph.add("Q", "R");
+
+        graph.add("W", "X");
+        graph.add("X", "Y");
+        graph.add("Z", "Y");
+
+        Assert.assertEquals(graph.getLargestIslandCount(), 5);
     }
 }

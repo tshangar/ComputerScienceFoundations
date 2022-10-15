@@ -336,7 +336,7 @@ public class Graph<E> {
         return false;
     }
 
-    public int getConnectedVerticesCount() {
+    public int getIslandCount() {
         int count = 0;
         Set<E> visited = new HashSet<>();
 
@@ -360,5 +360,35 @@ public class Graph<E> {
         }
 
         return true;
+    }
+
+    public int getLargestIslandCount() {
+        int largestCount = 0;
+
+        Set<E> visited = new HashSet<>();
+
+        for (Vertex<E> vertex : adjacencyList.values()) {
+            int count = getCountOfNeighbours(vertex.getValue(), visited);
+            if (count > largestCount) {
+                largestCount = count;
+            }
+        }
+
+        return largestCount;
+    }
+
+    private int getCountOfNeighbours(E current, Set<E> visited) {
+        if (current == null || !adjacencyList.containsKey(current) || visited.contains(current)) {
+            return 0;
+        }
+
+        int count = 1;
+        visited.add(current);
+
+        for (E vertex : adjacencyList.get(current).getNeighbours()) {
+            count += getCountOfNeighbours(vertex, visited);
+        }
+
+        return count;
     }
 }
